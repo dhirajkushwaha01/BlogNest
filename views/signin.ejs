@@ -9,26 +9,40 @@
 <body>
     <%- include("./partials/nav") %>
 
-        <main class="container mt-5">
-            <% if (typeof error !=="undefined" && error) { %>
-                <div class="alert alert-danger" role="alert">
-                    <%= error %>
+        <main class="container mt-5 mb-5">
+            <div class="bn-panel bn-panel-narrow">
+                <div class="bn-badge">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="11" width="16" height="10" rx="3" />
+                        <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                    </svg>
                 </div>
+                <h1 class="bn-title">Welcome back</h1>
+                <p class="bn-sub">Sign in to continue to BlogNest.</p>
+
+                <% if (typeof error !=="undefined" && error) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= error %>
+                    </div>
                 <% } %>
 
-                    <form action="/user/signin" method="post">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
+                <form action="/user/signin" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
-                        </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
 
-                        <button type="submit" class="btn btn-primary">Sign In</button>
-                    </form>
+                    <button type="submit" class="btn btn-primary bn-block">Sign In</button>
+                </form>
+
+                <p class="bn-foot">New here? <a href="/user/signup">Create an account</a></p>
+            </div>
         </main>
 
         <%- include("./partials/scripts") %>

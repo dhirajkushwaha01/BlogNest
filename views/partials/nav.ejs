@@ -1,6 +1,298 @@
-<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">BlogNest</a>
+<style>
+    /* ===== Navbar ===== */
+    .bn-nav.navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        padding: 0.75rem 0;
+        background: var(--bg, #e0e5ec);
+        border: 0;
+        box-shadow: 0 10px 20px -8px var(--sh-d, #a3b1c6);
+    }
+
+    /* ===== Brand ===== */
+    .bn-nav .bn-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #000;
+        font-family: "Playfair Display", Georgia, serif;
+        font-weight: 700;
+        font-size: 1.35rem;
+        letter-spacing: 0.01em;
+    }
+
+    .bn-nav .bn-brand:hover {
+        color: #000;
+    }
+
+    .bn-brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-family: "Inter", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #000;
+        background: var(--bg, #e0e5ec);
+        box-shadow: var(--raised-sm, 5px 5px 10px #a3b1c6, -5px -5px 10px #fff);
+        transition: box-shadow 0.25s;
+    }
+
+    .bn-brand:hover .bn-brand-mark {
+        box-shadow: var(--inset-sm, inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #fff);
+    }
+
+    /* ===== Links: hover = ubhar, active = dab jana ===== */
+    .bn-nav .nav-link.bn-link {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 0.55rem 1.05rem;
+        border-radius: 12px;
+        color: #000;
+        font-weight: 500;
+        font-size: 0.95rem;
+        background: transparent;
+        transition: box-shadow 0.25s, transform 0.25s, background 0.25s;
+    }
+
+    .bn-nav .nav-link.bn-link:hover {
+        color: #000;
+        transform: translateY(-2px);
+        box-shadow: var(--raised-sm, 5px 5px 10px #a3b1c6, -5px -5px 10px #fff);
+    }
+
+    .bn-nav .nav-link.bn-link.active {
+        color: #000;
+        font-weight: 700;
+        transform: none;
+        box-shadow: var(--inset-sm, inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #fff);
+    }
+
+    .bn-divider {
+        width: 2px;
+        height: 26px;
+        border-radius: 2px;
+        background: var(--sh-d, #a3b1c6);
+        box-shadow: 1px 0 0 var(--sh-l, #fff);
+        opacity: 0.55;
+        margin: 0 0.5rem;
+    }
+
+    /* ===== Sign in / Create Account ===== */
+    .bn-btn-ghost,
+    .bn-btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.6rem 1.35rem;
+        border-radius: 999px;
+        color: #000;
+        font-size: 0.95rem;
+        text-decoration: none;
+        background: var(--bg, #e0e5ec);
+        box-shadow: var(--raised-sm, 5px 5px 10px #a3b1c6, -5px -5px 10px #fff);
+        transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .bn-btn-ghost {
+        font-weight: 600;
+    }
+
+    .bn-btn-primary {
+        font-weight: 700;
+    }
+
+    .bn-btn-ghost svg {
+        transition: transform 0.3s;
+    }
+
+    .bn-btn-ghost:hover,
+    .bn-btn-primary:hover {
+        color: #000;
+        transform: translateY(-3px);
+        box-shadow: var(--raised, 9px 9px 18px #a3b1c6, -9px -9px 18px #fff);
+    }
+
+    .bn-btn-ghost:hover svg {
+        transform: translateX(4px);
+    }
+
+    .bn-btn-ghost:active,
+    .bn-btn-primary:active {
+        transform: translateY(0);
+        box-shadow: var(--inset-sm, inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #fff);
+    }
+
+    /* ===== User chip ===== */
+    .bn-nav .nav-link.bn-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 5px 16px 5px 5px;
+        border-radius: 999px;
+        background: var(--bg, #e0e5ec);
+        color: #000;
+        font-weight: 600;
+        font-size: 0.92rem;
+        box-shadow: var(--raised-sm, 5px 5px 10px #a3b1c6, -5px -5px 10px #fff);
+        transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .bn-nav .nav-link.bn-user:hover {
+        color: #000;
+        transform: translateY(-2px);
+        box-shadow: var(--raised, 9px 9px 18px #a3b1c6, -9px -9px 18px #fff);
+    }
+
+    .bn-nav .nav-link.bn-user.show {
+        color: #000;
+        transform: none;
+        box-shadow: var(--inset-sm, inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #fff);
+    }
+
+    .bn-user::after {
+        margin-left: 2px;
+    }
+
+    .bn-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: #000;
+        background: var(--bg, #e0e5ec);
+        box-shadow: var(--inset-sm, inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #fff);
+    }
+
+    .bn-user-name {
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #000;
+    }
+
+    /* ===== Dropdown ===== */
+    .bn-nav .dropdown-menu {
+        min-width: 250px;
+        margin-top: 14px !important;
+        padding: 0.6rem;
+        background: var(--bg, #e0e5ec);
+        border: 0;
+        border-radius: 20px;
+        box-shadow: var(--raised, 9px 9px 18px #a3b1c6, -9px -9px 18px #fff);
+    }
+
+    .bn-menu-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0.7rem 0.8rem;
+        margin-bottom: 0.5rem;
+        border-radius: 14px;
+        box-shadow: var(--inset-sm, inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #fff);
+    }
+
+    .bn-menu-head .bn-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        box-shadow: var(--raised-sm, 5px 5px 10px #a3b1c6, -5px -5px 10px #fff);
+    }
+
+    .bn-menu-name {
+        color: #000;
+        font-weight: 700;
+        font-size: 0.95rem;
+        line-height: 1.2;
+    }
+
+    .bn-menu-email {
+        color: #000;
+        opacity: 0.7;
+        font-size: 0.8rem;
+        word-break: break-all;
+    }
+
+    .bn-nav .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #000;
+        border-radius: 12px;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.92rem;
+        font-weight: 500;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .bn-nav .dropdown-item:hover,
+    .bn-nav .dropdown-item:focus {
+        color: #000;
+        background: transparent;
+        transform: translateY(-1px);
+        box-shadow: var(--raised-sm, 5px 5px 10px #a3b1c6, -5px -5px 10px #fff);
+    }
+
+    .bn-nav .dropdown-item:active {
+        background: transparent;
+        color: #000;
+        transform: none;
+        box-shadow: var(--inset-sm, inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #fff);
+    }
+
+    .bn-nav .dropdown-item.bn-logout {
+        font-weight: 700;
+    }
+
+    /* ===== Mobile ===== */
+    .bn-nav .navbar-toggler {
+        border: 0;
+        border-radius: 12px;
+        padding: 0.5rem 0.65rem;
+        background: var(--bg, #e0e5ec);
+        box-shadow: var(--raised-sm, 5px 5px 10px #a3b1c6, -5px -5px 10px #fff);
+    }
+
+    .bn-nav .navbar-toggler:focus,
+    .bn-nav .navbar-toggler:active {
+        box-shadow: var(--inset-sm, inset 3px 3px 6px #a3b1c6, inset -3px -3px 6px #fff);
+    }
+
+    @media (max-width: 991.98px) {
+        .bn-nav .navbar-collapse {
+            margin-top: 0.9rem;
+            padding: 0.9rem 0.4rem 0.4rem;
+        }
+
+        .bn-divider {
+            display: none;
+        }
+
+        .bn-menu-list {
+            gap: 0.6rem;
+            align-items: flex-start !important;
+        }
+
+        .bn-nav .dropdown-menu {
+            margin-top: 10px !important;
+        }
+    }
+</style>
+
+<nav class="navbar navbar-expand-lg bn-nav">
+    <div class="container">
+        <a class="navbar-brand bn-brand" href="/">
+            <span class="bn-brand-mark">B</span>
+            BlogNest
+        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,41 +300,102 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-1 gap-lg-2 bn-menu-list">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link bn-link" href="/">Home</a>
                 </li>
-
 
                 <% if (locals.user) { %>
                     <li class="nav-item">
-                        <a class="nav-link" href="/blog/add-new">Add Blog</a>
+                        <a class="nav-link bn-link" href="/blog/add-new">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.4" stroke-linecap="round">
+                                <path d="M12 5v14M5 12h14" />
+                            </svg>
+                            Add Blog
+                        </a>
                     </li>
+
+                    <li class="nav-item d-none d-lg-block"><span class="bn-divider d-block"></span></li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle bn-user" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <%= user.fullName %>
+                            <span class="bn-avatar">
+                                <%= (user.fullName || 'U' ).charAt(0).toUpperCase() %>
+                            </span>
+                            <span class="bn-user-name">
+                                <%= user.fullName %>
+                            </span>
                         </a>
 
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
-
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li class="bn-menu-head">
+                                <span class="bn-avatar">
+                                    <%= (user.fullName || 'U' ).charAt(0).toUpperCase() %>
+                                </span>
+                                <div>
+                                    <div class="bn-menu-name">
+                                        <%= user.fullName %>
+                                    </div>
+                                    <div class="bn-menu-email">
+                                        <%= user.email %>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/blog/add-new">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 20h9" />
+                                        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />
+                                    </svg>
+                                    Write a blog
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item bn-logout" href="/user/logout">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                        <path d="M16 17l5-5-5-5M21 12H9" />
+                                    </svg>
+                                    Logout
+                                </a>
+                            </li>
                         </ul>
                     </li>
-
-                    <% } else {%>
-
+                    <% } else { %>
+                        <li class="nav-item d-none d-lg-block"><span class="bn-divider d-block"></span></li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/signup">Create Account</a>
+                            <a class="bn-btn-ghost" href="/user/signin">
+                                Sign in
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12h14M13 6l6 6-6 6" />
+                                </svg>
+                            </a>
                         </li>
-
-
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/signin">Signin</a>
+                            <a class="bn-btn-primary" href="/user/signup">Create Account</a>
                         </li>
                         <% } %>
             </ul>
         </div>
     </div>
 </nav>
+
+<script>
+    (function () {
+        var path = window.location.pathname;
+        document.querySelectorAll(".bn-link").forEach(function (a) {
+            var href = a.getAttribute("href");
+            var match = href === "/" ? path === "/" : path.indexOf(href) === 0;
+            if (match) {
+                a.classList.add("active");
+                a.setAttribute("aria-current", "page");
+            }
+        });
+    })();
+</script>  
+
